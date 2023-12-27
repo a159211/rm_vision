@@ -9,8 +9,9 @@ def generate_launch_description():
     from common import node_params, launch_params
     from launch_ros.descriptions import ComposableNode
     from launch_ros.actions import ComposableNodeContainer, Node
-    from launch.actions import TimerAction, Shutdown
+    from launch.actions import TimerAction, Shutdown, LogInfo
     from launch import LaunchDescription
+
 
     def get_camera_node(package, plugin):
         return ComposableNode(
@@ -58,7 +59,7 @@ def generate_launch_description():
         package='rm_serial_driver',
         executable='rm_serial_driver_node',
         name='serial_driver',
-        output='both',
+        output='screen',
         emulate_tty=True,
         parameters=[node_params],
         on_exit=Shutdown(),
@@ -68,7 +69,10 @@ def generate_launch_description():
 
     auto_pose_node = Node(
         package="rm_auto_outpose",
-        executable="auto_outpose_node"
+        executable="auto_outpose_node",
+        name='auto_pose',
+        output='both',
+
     )
 
     delay_serial_node = TimerAction(
